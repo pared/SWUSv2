@@ -1,0 +1,9 @@
+end_of_simulation[us] 1000000
+number_of_flows 100
+C[bit/s] 100000000
+queue_size 1000
+bit_per_package 400
+packages_per_cycle 5
+time_ON[us] 1000
+time_OFF[us] 1000
+number_of_simulations 10
