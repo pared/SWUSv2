@@ -5,9 +5,20 @@ public class Event {
     private double time;
     private Type type;
 
+    public boolean isUsed() {
+        return isUsed;
+    }
+
+    public void setUsed(boolean isUsed) {
+        this.isUsed = isUsed;
+    }
+
+    private boolean isUsed;
+
     public Event(double occurTime,Type type){
         time = occurTime;
         this.type = type;
+        isUsed = false;
     }
 
     public void writeEvent(){
@@ -18,5 +29,7 @@ public class Event {
         return time;
     }
 
-
+    public Type getType(){
+        return type;
+    }
 }

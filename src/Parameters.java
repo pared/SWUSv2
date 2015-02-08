@@ -17,8 +17,11 @@ public class Parameters {
     private static double averageRate;
     private static double peakRate;
     private static double packageTime;
+    private static double packageServiceTime;
 
-    public static int packagesSent=0;
+    private static int packagesSent=0;
+    private static int packagesLost=0;
+    private static double delay = 0.0;
 
 
     public static void parseSimulationParameters(String s) throws Exception {
@@ -28,13 +31,14 @@ public class Parameters {
             String line=scanner.nextLine();
             setParameter(line);
         }
-        countBitRatesAndPackageTime();
+        countBitRatesAndPackageTimes();
     }
 
-    private static void countBitRatesAndPackageTime() {
+    private static void countBitRatesAndPackageTimes() {
         peakRate = bitPerPackage*packagesPerCycle/t_on*1000000;
         averageRate = peakRate/(t_on+t_off)*t_on;
         packageTime = t_on/packagesPerCycle;
+        packageServiceTime = bitPerPackage/Double.valueOf(C)*1000000;
     }
 
     private static void setParameter(String line){
@@ -68,6 +72,7 @@ public class Parameters {
     }
 
     public static void writeParameters(){
+        System.out.println("-------------PARAMETERS-------------");
         System.out.println("Bits per package: "+bitPerPackage+" bit");
         System.out.println("Packages per cycle: "+packagesPerCycle);
         System.out.println("T_ON: "+t_on+" [us]");
@@ -79,6 +84,9 @@ public class Parameters {
         System.out.println("Queue size: "+queueSize);
         System.out.println("End of simulation time: "+endOfSimulation/1000000+" s");
         System.out.println("Number of simulations: "+numberOfSimulations);
+        System.out.println("Single package generation time: "+packageTime+" [us]");
+        System.out.println("Package service time: "+packageServiceTime+" [us]");
+        System.out.println("-------------PARAMETERS-------------");
     }
 
     public static double getCycleTime(){
@@ -105,5 +113,37 @@ public class Parameters {
     }
     public static void packageSent(){
         packagesSent++;
+    }
+
+    public static int getQueueSize(){
+        return queueSize;
+    }
+
+    public static double getPackageServiceTime(){
+        return packageServiceTime;
+    }
+    public static void packageLost(){
+        packagesLost++;
+    }
+
+    public static void addDelay(double delay){
+        Parameters.delay+=delay;
+    }
+
+    public static double getDelay(){
+        return delay/packagesSent/numberOfSimulations;
+    }
+    public static int getPackagesLost(){
+        return packagesLost/numberOfSimulations;
+    }
+    public static int getPackagesSent(){
+        return packagesSent/numberOfSimulations;
+    }
+
+    public static void writeSimulationStats(){
+        System.out.println("Packages sent per simulation: "+Parameters.getPackagesSent());
+        System.out.println("Average delay per package: "+Parameters.getDelay()+" [us]");
+        System.out.println("Packages lost per simulation: "+Parameters.getPackagesLost());
+        System.out.println("Mbits lost per simulation: "+getPackagesLost()*bitPerPackage/1000000);
     }
 }
