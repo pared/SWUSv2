@@ -32,7 +32,7 @@ public class Simulation {
             Event evt=getNextEvent();
             //evt.writeEvent();
             handleEvent(evt);
-            Parameters.packageSent();
+
             timer = evt.getTime();
         }
 
@@ -41,6 +41,7 @@ public class Simulation {
     private void handleEvent(Event event){
         switch (event.getType()){
             case PACKAGE_ARRIVE:
+                Parameters.packageSent();
                 queue.handleArrivingPackage(event);
                 break;
             case END_OF_SERVICE:

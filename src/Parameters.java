@@ -144,6 +144,7 @@ public class Parameters {
         System.out.println("Packages sent per simulation: "+Parameters.getPackagesSent());
         System.out.println("Average delay per package: "+Parameters.getDelay()+" [us]");
         System.out.println("Packages lost per simulation: "+Parameters.getPackagesLost());
-        System.out.println("Mbits lost per simulation: "+getPackagesLost()*bitPerPackage/1000000);
+        System.out.println("Mbits sent per simulation: "+Double.valueOf(packagesSent)/1000000 * Double.valueOf(bitPerPackage)/numberOfSimulations);
+        System.out.println("Mbits lost per simulation: "+getPackagesLost()*Double.valueOf(bitPerPackage)/1000000);
     }
 }
